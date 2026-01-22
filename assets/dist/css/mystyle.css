@@ -1,0 +1,274 @@
+.custom-table > thead:first-child > tr:first-child > th{
+    background-color: white !important;
+    color: #428BCA !important;
+    border-color: #357EBD;
+    border-top: 2px solid #357EBD;
+    text-align: center;
+}
+
+.custom-table > tfoot > tr > th{
+	text-align: center;
+}
+
+.custom-table > tbody > tr > td{
+	text-align: center;
+}
+
+.custom-table > tbody > tr > td{
+	text-align: center;
+}
+
+.table-condensed-custom > tbody > tr > td, .table-condensed-custom > tbody > tr > th, .table-condensed-custom > tfoot > tr > td, .table-condensed-custom > tfoot > tr > th, .table-condensed-custom > thead > tr > td, .table-condensed-custom > thead > tr > th {
+    padding: 0px;
+}
+
+.box-header > .box-tools .dropdown-menu > li > a:hover {
+    color: #428BCA !important;
+}
+
+.dark-mode table .stripped tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#ledgerentries_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#ledgerstatement_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#reconciliation_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#trialbalance_table tr:hover {
+    color: #000000 !important;
+}
+
+
+.dark-mode table#entries_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#edit_entries_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#add_entries_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#view_entries_table tr:hover {
+    color: #000000 !important;
+}
+
+.dark-mode table#ledgertable tr:hover {
+    color: #000000 !important;
+}
+
+[class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link:hover {
+    background-color: rgba(255,255,255,.1) !important;
+    color: #fff;
+}
+
+/*[class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link {
+    background-color: #343a40 !important;
+    color: #fff;
+}*/
+div.dt-buttons {
+    position: absolute !important;
+}
+[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link, [class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link {
+    color: #c2c7d0;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:hover {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/*[class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link.active:hover {
+  background-color: #212528 !important;
+  color: #fff;
+}*/
+
+.dark-mode #dr-total {
+    color: #000000 !important;
+}
+
+.dark-mode #cr-total {
+    color: #000000 !important;
+}
+
+/*.dr-total {
+    color: #ffffff !important;
+}
+
+.dr-total {
+    color: #ffffff !important;
+}
+*/
+table.stripped {
+    width: 100%;
+}
+
+table.stripped tr td {
+    border-bottom:1px solid #DDDDDD;
+    border-top:1px solid #DDDDDD;
+}
+
+table.stripped tr:hover {
+    background-color: #FFFF99;
+}
+
+table.stripped .tr-ledger {
+
+}
+
+table.stripped .tr-group {
+    font-weight: bold;
+}
+
+table.stripped .tr-highlight {
+    background-color: #F3F3F3;
+}
+
+.dark-mode table.stripped .tr-highlight {
+    background-color: #5b636a;
+}
+
+table.stripped .tr-root-group {
+    background-color: #F3F3F3;
+    color: #754719;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+}
+
+#section-to-print, #section-to-print * {
+    visibility: visible;
+}
+#section-to-print {
+    position: absolute;
+    left: 55px;
+    right: 55px;
+    top: 40px;
+    bottom: 40px;
+}
+
+.subtitle {
+    color: #333333;
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.dark-mode .subtitle {
+    color: #ffffff !important;
+}
+
+.table-top {
+    vertical-align: top;
+}
+
+/*table tr td .width-50 {
+    width: 40%;
+}*/
+
+.width-50 {
+    width: 40%;
+}
+
+.width-70 {
+    width: 70%;
+}
+
+.width-30 {
+    width: 30%;
+}
+
+.bg-filled {
+    background-color: #F3F3F3;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.report-tb-pad {
+    margin-top: 30px !important;
+}
+
+.summary {
+    background-color: #FFFFCC;
+    border: 1px solid #BBBBBB;
+    border-collapse: collapse;
+    text-align: left;
+    width: 600px;
+}
+
+.error-text {
+    font-weight: bold;
+    color: #FF0000;
+}
+
+.ok-text {
+    /*color: #006400;*/
+}
+
+.dc-error {
+    background: #FFB2B2;
+}
+
+.dc-error {
+    background: #FFB2B2;
+}
+
+.dc-ok {
+    background: #4ec14e;
+}
+
+/*table td .dc-ok {
+    background: #006400;
+}*/
+
+.dark-mode .summary {
+    color: #000000 !important;
+}
+
+.summary td {
+    border: 1px solid #BBBBBB;
+}
+
+.td-fixwidth-summary {
+    width: 300px;
+    vertical-align: text-top;
+}
+
+.dash_bank_cash {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}

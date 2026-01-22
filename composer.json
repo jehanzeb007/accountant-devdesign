@@ -1,0 +1,23 @@
+{
+	"description": "The CodeIgniter framework",
+	"name": "codeigniter/framework",
+	"type": "project",
+	"homepage": "https://codeigniter.com",
+	"license": "MIT",
+	"support": {
+		"forum": "http://forum.codeigniter.com/",
+		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
+		"slack": "https://codeigniterchat.slack.com",
+		"source": "https://github.com/bcit-ci/CodeIgniter"
+	},
+	"require": {
+		"phpoffice/phpspreadsheet": "^1.24",
+		"mikehaertl/phpwkhtmltopdf": "^2.5",
+		"h4cc/wkhtmltopdf-amd64": "^0.12.4",
+		"h4cc/wkhtmltopdf-i386": "^0.12.4"
+	},
+	"suggest": {
+	},
+	"require-dev": {
+    }
+}
