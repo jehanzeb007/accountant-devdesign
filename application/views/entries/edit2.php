@@ -100,11 +100,11 @@ $(document).ready(function() {
 			}
 		}
 
-		if ($('#cr-diff').text()) {
-			$(".dc-dropdown").val('C');
-		}else{
-			$(".dc-dropdown").val('D');
-		}
+		// if ($('#cr-diff').text()) {
+		// 	$(".dc-dropdown").val('C');
+		// }else{
+		// 	$(".dc-dropdown").val('D');
+		// }
 	}
 
 	$('.ledger-dropdown').on('select2:close', function (e) {
@@ -217,14 +217,14 @@ $(document).ready(function() {
 							tbody.append(data)
 							dc_diff();
 							if (!tbody.children().hasClass('danger')) {
-								if ($('#cr-diff').text()) {
-									$(".dc-dropdown").val('C');
-								}else{
-									$(".dc-dropdown").val('D');
-								}
-								$('.ledger-dropdown').val(0).trigger('change.select2');
+								// if ($('#cr-diff').text()) {
+								// 	$(".dc-dropdown").val('C');
+								// }else{
+								// 	$(".dc-dropdown").val('D');
+								// }
+								//$('.ledger-dropdown').val(0).trigger('change.select2');
 								$('.amount').prop('value', "");
-								$('.amount').prop('disabled', 'disabled');
+								//$('.amount').prop('disabled', 'disabled');
 								$(".narration").val('');
 							}
 							$(".dc-dropdown").focus();
@@ -251,13 +251,13 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.dc-dropdown').keypress(function (e) {
-		var key = e.which;
-		if(key == 13){
-			$('#ledger-dropdown').focus();
-			return false;  
-		}
-	});
+	// $('.dc-dropdown').keypress(function (e) {
+	// 	var key = e.which;
+	// 	if(key == 13){
+	// 		$('#ledger-dropdown').focus();
+	// 		return false;
+	// 	}
+	// });
 
 	/* On page load initiate all triggers */
 	dc_diff();
@@ -409,7 +409,7 @@ $(document).ready(function() {
 									echo '<div class="form-group-entryitem">' . form_dropdown('', $dc_options, $dc, $data) . '</div>';
 									?>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="form-group-entryitem"  id="ledger-dropdown" tabindex="5" data-toggle="popover" data-trigger="focus" title="<?= lang('required'); ?>" data-content="<?= lang('please_select_ledger'); ?>" data-container="body">
 										<select class="ledger-dropdown form-control" >
 											<?php // foreach ($ledger_options as $id => $ledger): ?>
@@ -446,18 +446,20 @@ $(document).ready(function() {
 												echo form_input($data);
 												// echo "</div>";
 												?>
-                        <div class="input-group-append">
-                          <!-- <span class="input-group-text"> -->
-														<button type='button' id="addentry" tabindex="8" class="btn btn-primary" data-toggle="tooltip" title="<?php echo lang('entries_views_add_items_addentry_btn_tooltip');?>">
-															<span class="fas fa-plus"></span>
-														</button>
-													<!-- </span> -->
-                        </div>
                     </div>
                     <!-- /.input group -->
                 	</div>
                 <!-- /.form group -->
 								</div>
+                                <div class="col-md-1">
+                                    <div class="input-group-append">
+                                        <!-- <span class="input-group-text"> -->
+                                        <button type='button' id="addentry" tabindex="8" class="btn btn-primary" data-toggle="tooltip" title="<?php echo lang('entries_views_add_items_addentry_btn_tooltip');?>">
+                                            <span class="fas fa-plus"></span>
+                                        </button>
+                                        <!-- </span> -->
+                                    </div>
+                                </div>
 							</div>
 
 							<?php
