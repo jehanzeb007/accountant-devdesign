@@ -234,7 +234,7 @@ Class Ledger_model extends CI_Model {
 		if ($ledger) {
 			return $this->functionscore->toCodeWithName($ledger['code'],$ledger['name']);
 		} else {
-			return('ERROR');
+			return('0');
 		}
 	}
 
