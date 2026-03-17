@@ -581,14 +581,23 @@ class Account_settings extends Admin_Controller {
 
 		} elseif ($action == 'delete') {
 			$id = $this->security->xss_clean($this->input->post('id', true));
-			$q = $this->DB1->get_where('entries' , array('entrytype_id'=> $id));
+			$this->DB1->where('entrytype_id', $id);
+			if ($this->softDeleteSupported('entries')) {
+				$this->DB1->where('deleted_at', null);
+			}
+			$q = $this->DB1->get('entries');
 
 			if ($q->num_rows() > 0) {
 	        	echo json_encode('false');
 	        	return;
 			} else {
 				$this->DB1->where('id', $id);
-				$this->DB1->delete('entrytypes');
+				if ($this->softDeleteSupported('entrytypes')) {
+					$this->DB1->where('deleted_at', null);
+					$this->DB1->update('entrytypes', array('deleted_at' => date('Y-m-d H:i:s')));
+				} else {
+					$this->DB1->delete('entrytypes');
+				}
 	        	echo json_encode('true');
 	        	return;
 			}
@@ -635,7 +644,11 @@ class Account_settings extends Admin_Controller {
 			}
 
 		} elseif ($action == 'getByID') {
-			$q = $this->DB1->get_where('entrytypes', array('id'=>$this->input->post('id')));
+			$this->DB1->where('id', $this->input->post('id'));
+			if ($this->softDeleteSupported('entrytypes')) {
+				$this->DB1->where('deleted_at', null);
+			}
+			$q = $this->DB1->get('entrytypes');
 
 			if($q->num_rows() > 0) {
 				echo json_encode($q->row());
@@ -731,6 +744,10 @@ class Account_settings extends Admin_Controller {
             ->select('id, label, name, description, prefix, suffix, zero_padding')
             ->from('entrytypes')
             ->add_column('actions', "<a href='#clientmodal' id='modify' data-toggle='tooltip' data-num='$1' style='padding-right: 4px;' title='".lang('edit')."'><i class='fas fa-edit'></i></a><a href='#' id='delete' data-num='$1' data-toggle='tooltip' title='".lang('delete')."'><i class='fas fa-trash'></i></a>", 'id');
+        
+        if ($this->softDeleteSupported('entrytypes')) {
+        	$this->datatables->where('entrytypes.deleted_at', null);
+        }
         
         $this->datatables->unset_column('id');
         echo $this->datatables->generate();

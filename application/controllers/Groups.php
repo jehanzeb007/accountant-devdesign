@@ -157,7 +157,11 @@ class Groups extends Admin_Controller {
 			}
 
 			/* Check if group exists */
-			$group = $this->DB1->where('id',$id)->get('groups')->row_array();
+			$this->DB1->where('id', $id);
+			if ($this->softDeleteSupported('groups')) {
+				$this->DB1->where('deleted_at', null);
+			}
+			$group = $this->DB1->get('groups')->row_array();
 			if (!$group) {
 				$this->session->set_flashdata('error', lang('groups_cntrler_delete_group_not_found_error'));
 				redirect('accounts');
@@ -171,6 +175,9 @@ class Groups extends Admin_Controller {
 
 			/* Check if any child groups exists */
 			$this->DB1->where('groups.parent_id', $id);
+			if ($this->softDeleteSupported('groups')) {
+				$this->DB1->where('groups.deleted_at', null);
+			}
 			$q = $this->DB1->get('groups');
 			if ($q->num_rows() > 0) {
 				$this->session->set_flashdata('error', lang('groups_cntrler_delete_child_group_exists_error'));
@@ -185,8 +192,12 @@ class Groups extends Admin_Controller {
 				redirect('accounts');
 			}
 
-			/* Delete group */
-			$this->DB1->delete('groups', array('id' => $id));
+			/* Soft-delete group */
+			if ($this->softDeleteSupported('groups')) {
+				$this->DB1->where('id', $id)->where('deleted_at', null)->update('groups', array('deleted_at' => date('Y-m-d H:i:s')));
+			} else {
+				$this->DB1->delete('groups', array('id' => $id));
+			}
 			$this->settings_model->add_log(lang('groups_cntrler_delete_label_add_log') . $group['name'], 1);
 			$this->session->set_flashdata('message', sprintf(lang('groups_cntrler_delete_group_deleted_successfully'), $group['name']));
 			redirect('accounts');

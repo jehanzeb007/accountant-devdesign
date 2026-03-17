@@ -133,6 +133,9 @@ class Accounts extends Admin_Controller {
 
 				if ($parent_code) {
 					$this->DB1->where('code', $parent_code);
+					if ($this->softDeleteSupported('groups')) {
+						$this->DB1->where('deleted_at', null);
+					}
 					$query = $this->DB1->get('groups', 1);
 					if ($query->num_rows() == 1) {
 						$parent_group = $query->row_array();

@@ -53,7 +53,12 @@
 					<div class="btn-group float-right">
 	                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown"><i class="fas fa-plus-square"></i> <?= lang('entries_views_index_add_entry_btn'); ?></button>
 	                    <div class="dropdown-menu" role="menu">
-	                    	<?php foreach($this->DB1->get('entrytypes')->result_array() as $entrytype): ?>
+	                    	<?php
+	                    		if ($this->softDeleteSupported('entrytypes')) {
+	                    			$this->DB1->where('deleted_at', null);
+	                    		}
+	                    		foreach($this->DB1->get('entrytypes')->result_array() as $entrytype):
+	                    	?>
 								<a class="dropdown-item" href="<?= base_url(); ?>entries/add/<?=$entrytype['label']?>"><?= $entrytype['name']; ?></a>
 							<?php endforeach; ?>
 	                    </div>

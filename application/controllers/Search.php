@@ -218,6 +218,13 @@ class Search extends Admin_Controller {
 		if (!empty($search_data['narration'])) {
 			$conditions['entryitems.narration LIKE'] = '%' . $search_data['narration'] . '%';
 		}
+
+		if ($this->softDeleteSupported('entries')) {
+			$conditions['entries.deleted_at'] = null;
+		}
+		if ($this->softDeleteSupported('entryitems')) {
+			$conditions['entryitems.deleted_at'] = null;
+		}
 		
 		$this->datatables->where($conditions)
 		->select('entries.date as date, entries.number as number, entries.id as id, entrytypes.name as entryTypeName, entries.tag_id as tag_id, entries.dr_total as dr_total, entries.cr_total as cr_total, entries.entrytype_id as entrytype_id, entryitems.narration as narration, entryitems.ledger_id as ledger_ida, entryitems.amount as amount, entryitems.reconciliation_date as reconciliation_date, entrytypes.label as entryTypeLabel, entryitems.dc as dc')
@@ -239,6 +246,10 @@ class Search extends Admin_Controller {
 		$this->datatables->unset_column('dc');
 		$this->datatables->unset_column('reconciliation_date');
 		$this->datatables->unset_column('entryTypeLabel');
+
+		if ($this->softDeleteSupported('entrytypes')) {
+			$this->datatables->where('entrytypes.deleted_at', null);
+		}
 
         echo $this->datatables->generate();
     }
@@ -268,7 +279,11 @@ class Search extends Admin_Controller {
 		$entrytype_options = array();
 		$entrytype_options[0] = '(ALL)';
 
-		$rawentrytypes = $this->DB1->order_by('id', 'asc')->get('entrytypes')->result_array();
+		$this->DB1->order_by('id', 'asc');
+		if ($this->softDeleteSupported('entrytypes')) {
+			$this->DB1->where('deleted_at', null);
+		}
+		$rawentrytypes = $this->DB1->get('entrytypes')->result_array();
 		foreach ($rawentrytypes as $row => $rawentrytype) {
 			$entrytype_options[$rawentrytype['id']] = ($rawentrytype['name']);
 		}

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+error_reporting(E_ALL);
 class Entries extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
@@ -63,6 +63,13 @@ class Entries extends Admin_Controller {
     ',
                 "id, entryTypeLabel"
             );
+
+		if ($this->softDeleteSupported('entries')) {
+			$this->datatables->where('entries.deleted_at', null);
+		}
+		if ($this->softDeleteSupported('entrytypes')) {
+			$this->datatables->where('entrytypes.deleted_at', null);
+		}
 
 		$this->datatables->unset_column('entryTypeLabel');
 		$this->datatables->unset_column('entrytype_id');
@@ -780,7 +787,11 @@ class Entries extends Admin_Controller {
 			}
 
 			// select data from entries table where id equals $id(passed id to edit function) and create array
-			$entry = $this->DB1->where('id', $id)->get('entries')->row_array();
+			$this->DB1->where('id', $id);
+			if ($this->softDeleteSupported('entries')) {
+				$this->DB1->where('deleted_at', null);
+			}
+			$entry = $this->DB1->get('entries')->row_array();
 
 			// if no entries found
 			if (!$entry)
@@ -841,7 +852,11 @@ class Entries extends Admin_Controller {
 				$selectedLedgers = array(); // initilize current entry items array 
 
 				// get entry items where entry_id equals $id(passed id to edit function) and store to [curEntryitemsData] array
-				$curEntryitemsData = $this->DB1->where('entry_id', $id)->get('entryitems')->result_array();
+				$this->DB1->where('entry_id', $id);
+				if ($this->softDeleteSupported('entryitems')) {
+					$this->DB1->where('deleted_at', null);
+				}
+				$curEntryitemsData = $this->DB1->get('entryitems')->result_array();
 				// loop for storing current entry items in current entry items array 
 				foreach ($curEntryitemsData as $row => $data)
 				{
@@ -1031,9 +1046,14 @@ class Entries extends Admin_Controller {
 			// if update successfull
 			if ($update)
 			{
-			   	/* Delete all original entryitems */
+			   	/* Soft-delete all original entryitems */
 				$this->DB1->where('entry_id', $id); // select all entry items where entry_id equals passed id
-				$this->DB1->delete('entryitems'); // delete selected entry items
+				if ($this->softDeleteSupported('entryitems')) {
+					$this->DB1->where('deleted_at', null);
+					$this->DB1->update('entryitems', array('deleted_at' => date('Y-m-d H:i:s')));
+				} else {
+					$this->DB1->delete('entryitems'); // fallback if schema not updated
+				}
 
 				// loop to insert entry item data to entryitems table
 				foreach ($entryitemdata as $row => $itemdata)
@@ -1142,7 +1162,11 @@ class Entries extends Admin_Controller {
 		}
 		
 		// select entry where id equals $id and store to array
-		$entry = $this->DB1->where('id',$id)->get('entries')->row_array();
+		$this->DB1->where('id', $id);
+		if ($this->softDeleteSupported('entries')) {
+			$this->DB1->where('deleted_at', null);
+		}
+		$entry = $this->DB1->get('entries')->row_array();
 
 		/* if entry [NOT] found */
 		if (!$entry)
@@ -1153,10 +1177,25 @@ class Entries extends Admin_Controller {
 			redirect('entries');
 		}
 
-		/* Delete entry items */
-		$this->DB1->delete('entryitems', array('entry_id' => $id));
-		/* Delete entry */
-		$this->DB1->delete('entries', array('id' => $id));
+		$now = date('Y-m-d H:i:s');
+
+		/* Soft-delete entry items */
+		$this->DB1->where('entry_id', $id);
+		if ($this->softDeleteSupported('entryitems')) {
+			$this->DB1->where('deleted_at', null);
+			$this->DB1->update('entryitems', array('deleted_at' => $now));
+		} else {
+			$this->DB1->delete('entryitems', array('entry_id' => $id));
+		}
+
+		/* Soft-delete entry */
+		$this->DB1->where('id', $id);
+		if ($this->softDeleteSupported('entries')) {
+			$this->DB1->where('deleted_at', null);
+			$this->DB1->update('entries', array('deleted_at' => $now));
+		} else {
+			$this->DB1->delete('entries', array('id' => $id));
+		}
 
 		// set entry number as per prefix, suffix and zero padding for that entry type for logging
 		$entryNumber = ($this->functionscore->toEntryNumber($entry['number'], $entrytype['id']));
@@ -1214,7 +1253,11 @@ class Entries extends Admin_Controller {
 		}
 
 		// select entry where id equals $id and store to array
-		$entry = $this->DB1->where('id',$id)->get('entries')->row_array();
+		$this->DB1->where('id', $id);
+		if ($this->softDeleteSupported('entries')) {
+			$this->DB1->where('deleted_at', null);
+		}
+		$entry = $this->DB1->get('entries')->row_array();
 
 		/* if entry [NOT] found */
 		if (!$entry)
@@ -1231,6 +1274,9 @@ class Entries extends Admin_Controller {
 		$this->DB1->where('entry_id', $id); // select where entry_id equals $id
 
 		// store selected data to $curEntryitemsData
+		if ($this->softDeleteSupported('entryitems')) {
+			$this->DB1->where('deleted_at', null);
+		}
 		$curEntryitemsData = $this->DB1->get('entryitems')->result_array();
 
 		// loop to store selected entry items to current entry items array
@@ -1360,7 +1406,11 @@ class Entries extends Admin_Controller {
 		}
 
 		// select entry where id equals $id and store to array
-		$entry = $this->DB1->where('id',$id)->get('entries')->row_array();
+		$this->DB1->where('id', $id);
+		if ($this->softDeleteSupported('entries')) {
+			$this->DB1->where('deleted_at', null);
+		}
+		$entry = $this->DB1->get('entries')->row_array();
 
 		/* if entry [NOT] found */
 		if (!$entry)
@@ -1377,6 +1427,9 @@ class Entries extends Admin_Controller {
 		$this->DB1->where('entry_id', $id); // select where entry_id equals $id
 
 		// store selected data to $curEntryitemsData
+		if ($this->softDeleteSupported('entryitems')) {
+			$this->DB1->where('deleted_at', null);
+		}
 		$curEntryitemsData = $this->DB1->get('entryitems')->result_array();
 
 		// loop to store selected entry items to current entry items array

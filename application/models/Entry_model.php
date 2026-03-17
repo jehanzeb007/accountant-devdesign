@@ -4,6 +4,7 @@ Class Entry_model extends CI_Model {
 	 * Show the entry ledger details
 	 */
 	public function entryLedgers($id) {
+		$ci = &get_instance();
 		/* Load the Entryitem model */
 		$this->load->model('EntryItem_model');
 		$Entryitem = new EntryItem_model();
@@ -13,6 +14,9 @@ Class Entry_model extends CI_Model {
 		$Ledger = new Ledger_model();
 
 		$this->DB1->where('entryitems.entry_id', $id);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$this->DB1->where('entryitems.deleted_at', null);
+		}
 		$this->DB1->order_by('entryitems.id', "desc");
 		$rawentryitems = $this->DB1->get('entryitems')->result_array();
 		

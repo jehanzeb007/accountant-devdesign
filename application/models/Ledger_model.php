@@ -10,6 +10,7 @@ Class Ledger_model extends CI_Model {
  * @return array D/C, Amount
  */
 	function openingBalance($id, $start_date = null) {
+		$ci = &get_instance();
 		
 		/* Opening balance */
 		$this->DB1->where('id', $id);
@@ -38,6 +39,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.ledger_id' => $id,
 			'entryitems.dc' => 'D'
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$dr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$dr_conditions['entryitems.deleted_at'] = null;
+		}
 		if (!is_null($start_date)) {
 			$dr_conditions['entries.date <'] = $start_date;
 		}
@@ -56,6 +63,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.ledger_id' => $id,
 			'entryitems.dc' => 'C'
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$cr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$cr_conditions['entryitems.deleted_at'] = null;
+		}
 		if (!is_null($start_date)) {
 			$cr_conditions['entries.date <'] = $start_date;
 		}
@@ -97,6 +110,7 @@ Class Ledger_model extends CI_Model {
 
 
 	function closingBalance($id, $start_date = null, $end_date = null) {
+		$ci = &get_instance();
 
 		if (empty($id)) {
 			show_404();
@@ -132,6 +146,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.ledger_id' => $id,
 			'entryitems.dc' => 'D'
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$dr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$dr_conditions['entryitems.deleted_at'] = null;
+		}
 		if (!is_null($start_date)) {
 			$dr_conditions['entries.date >='] = $start_date;
 		}
@@ -157,6 +177,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.ledger_id' => $id,
 			'entryitems.dc' => 'C'
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$cr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$cr_conditions['entryitems.deleted_at'] = null;
+		}
 
 		if (!is_null($start_date)) {
 			$cr_conditions['entries.date >='] = $start_date;
@@ -246,6 +272,7 @@ Class Ledger_model extends CI_Model {
 	 * @return array Debit_Amount, Credit_Amount
 	 */
 	function reconciliationPending($id, $start_date = null, $end_date = null) {
+		$ci = &get_instance();
 
 		$dr_total = 0;
 		$cr_total = 0;
@@ -256,6 +283,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.dc' => 'D',
 			'entryitems.reconciliation_date' => null
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$dr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$dr_conditions['entryitems.deleted_at'] = null;
+		}
 		if (!is_null($start_date)) {
 			$dr_conditions['entries.date >='] = $start_date;
 		}
@@ -280,6 +313,12 @@ Class Ledger_model extends CI_Model {
 			'entryitems.dc' => 'C',
 			'entryitems.reconciliation_date' => null
 		);
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$cr_conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$cr_conditions['entryitems.deleted_at'] = null;
+		}
 
 		if (!is_null($start_date)) {
 			$cr_conditions['entries.date >='] = $start_date;

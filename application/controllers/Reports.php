@@ -817,12 +817,22 @@ class Reports extends Admin_Controller {
 
 			/* Calculate current page opening balance */
 			$current_op = $op;
+
+			if ($this->softDeleteSupported('entries')) {
+				$conditions['entries.deleted_at'] = null;
+			}
+			if ($this->softDeleteSupported('entryitems')) {
+				$conditions['entryitems.deleted_at'] = null;
+			}
 			
 			$this->DB1->where($conditions)
 			->select('entries.date as date, entries.number as number, entries.id as id, entrytypes.name as entryTypeName, entries.tag_id as tag_id, entries.dr_total, entries.cr_total, entryitems.amount, entryitems.dc as dc, entries.entrytype_id as entrytype_id, entrytypes.label as entryTypeLabel, entryitems.entry_id')
 			->join('entryitems', 'entries.id = entryitems.entry_id', 'left')
 			->join('entrytypes', 'entries.entrytype_id = entrytypes.id', 'left')
 			->order_by('entries.id', 'asc');
+			if ($this->softDeleteSupported('entrytypes')) {
+				$this->DB1->where('entrytypes.deleted_at', null);
+			}
 			if (!is_null($limit) && !is_null($offset)) {
 				$this->DB1->limit($limit, $offset);
 			}
@@ -1074,6 +1084,13 @@ class Reports extends Admin_Controller {
 
 			/* Calculate current page opening balance */
 			$current_op = $op;
+
+			if ($this->softDeleteSupported('entries')) {
+				$conditions['entries.deleted_at'] = null;
+			}
+			if ($this->softDeleteSupported('entryitems')) {
+				$conditions['entryitems.deleted_at'] = null;
+			}
 
 			$this->DB1->where($conditions)->select('entries.id, entries.tag_id, entries.entrytype_id, entries.number, entries.date, entries.dr_total, entries.cr_total, entryitems.narration, entryitems.entry_id, entryitems.ledger_id, entryitems.amount, entryitems.dc, entryitems.reconciliation_date')->join('entryitems', 'entries.id = entryitems.entry_id', 'left')->order_by('entries.date', 'asc');
 
@@ -1476,6 +1493,13 @@ class Reports extends Admin_Controller {
 					$conditions['entries.date <='] = $enddate;
 				}
 
+				if ($this->softDeleteSupported('entries')) {
+					$conditions['entries.deleted_at'] = null;
+				}
+				if ($this->softDeleteSupported('entryitems')) {
+					$conditions['entryitems.deleted_at'] = null;
+				}
+
 				$this->datatables->where($conditions)
 				->select('entries.date as date, entries.number as number, entries.id as id, entrytypes.name as entryTypeName, entries.tag_id as tag_id, entries.dr_total, entries.cr_total, entryitems.amount, entryitems.dc as dc, entries.entrytype_id as entrytype_id, entrytypes.label as entryTypeLabel')
 				->join('entryitems', 'entries.id = entryitems.entry_id', 'left')
@@ -1503,6 +1527,10 @@ class Reports extends Admin_Controller {
 				$this->datatables->unset_column('amount');
 				$this->datatables->unset_column('dc');
 				$this->datatables->unset_column('entryTypeLabel');
+
+				if ($this->softDeleteSupported('entrytypes')) {
+					$this->datatables->where('entrytypes.deleted_at', null);
+				}
 
 		        echo $this->datatables->generate();
 			}
@@ -1542,6 +1570,13 @@ class Reports extends Admin_Controller {
 					$conditions['entryitems.reconciliation_date'] = NULL;
 				}
 
+				if ($this->softDeleteSupported('entries')) {
+					$conditions['entries.deleted_at'] = null;
+				}
+				if ($this->softDeleteSupported('entryitems')) {
+					$conditions['entryitems.deleted_at'] = null;
+				}
+
 				$this->datatables->where($conditions)
 				->select('entries.date as date, entries.number as number, entries.id as id, entrytypes.name as entryTypeName, entries.tag_id as tag_id, entries.dr_total, entries.cr_total, entryitems.amount, entryitems.id as eiid, entries.entrytype_id as entrytype_id, entrytypes.label as entryTypeLabel, entryitems.reconciliation_date as reconciliation_date')
 				->join('entryitems', 'entries.id = entryitems.entry_id', 'left')
@@ -1561,6 +1596,10 @@ class Reports extends Admin_Controller {
 				$this->datatables->unset_column('eiid');
 				$this->datatables->unset_column('entryTypeLabel');
 				$this->datatables->unset_column('reconciliation_date');
+
+				if ($this->softDeleteSupported('entrytypes')) {
+					$this->datatables->where('entrytypes.deleted_at', null);
+				}
 
 		        echo $this->datatables->generate();
 		    }

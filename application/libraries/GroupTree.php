@@ -39,6 +39,9 @@ class GroupTree
 			$this->name = "None";
 		} else {
 			$this->_ci->DB1->where('id', $id);
+			if ($this->_ci->softDeleteSupported('groups')) {
+				$this->_ci->DB1->where('deleted_at', null);
+			}
 			$group = $this->_ci->DB1->get('groups')->row_array();
 			$this->id = $group['id'];
 			$this->name = $group['name'];
@@ -56,6 +59,9 @@ class GroupTree
 	function add_sub_groups()
 	{
 		$conditions = array('groups.parent_id' => $this->id);
+		if ($this->_ci->softDeleteSupported('groups')) {
+			$conditions['groups.deleted_at'] = null;
+		}
 
 		/* If primary group sort by id else sort by name */
 		if ($this->id == NULL) {

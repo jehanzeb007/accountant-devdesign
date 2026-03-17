@@ -22,6 +22,12 @@ class MY_Controller extends CI_Controller {
 	
 	// MySQL DB
 	public 	  	$DB1; 					// mysql db which will be created on every new account
+
+	/**
+	 * Cache for soft-delete capability checks (per table).
+	 * Soft-delete is considered supported when a `deleted_at` column exists.
+	 */
+	protected $mSoftDeleteSupported = array();
 	
 	// Constructor
 	public function __construct()
@@ -221,6 +227,24 @@ class MY_Controller extends CI_Controller {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Whether a DB1 table supports soft-delete (has `deleted_at` column).
+	 *
+	 * Note: DB1 is only available when an account is active.
+	 */
+	public function softDeleteSupported($table)
+	{
+		if (isset($this->mSoftDeleteSupported[$table])) {
+			return $this->mSoftDeleteSupported[$table];
+		}
+		if (!isset($this->DB1) || !$this->DB1) {
+			$this->mSoftDeleteSupported[$table] = false;
+			return false;
+		}
+		$this->mSoftDeleteSupported[$table] = (bool) $this->DB1->field_exists('deleted_at', $table);
+		return $this->mSoftDeleteSupported[$table];
 	}
 
 	/**

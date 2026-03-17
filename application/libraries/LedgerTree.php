@@ -50,7 +50,11 @@ class LedgerTree
 			$this->id = NULL;
 			$this->name = 'none';
 		} else {
-			$group = $this->_ci->DB1->where('groups.id', $id)->get('groups')->row_array();
+			$this->_ci->DB1->where('groups.id', $id);
+			if ($this->_ci->softDeleteSupported('groups')) {
+				$this->_ci->DB1->where('groups.deleted_at', null);
+			}
+			$group = $this->_ci->DB1->get('groups')->row_array();
 			$this->id = $group['id'];
 			$this->name = $group['name'];
 			$this->code = $group['code'];
@@ -66,10 +70,18 @@ class LedgerTree
  */
 	function add_sub_groups() {
 		if ($this->for == 'select2' && $this->searchTerm) {
-			$this->_ci->DB1->like('groups.code', $this->searchTerm);
-			$this->_ci->DB1->or_like('groups.name', $this->searchTerm);
+			if ($this->_ci->softDeleteSupported('groups')) {
+				$this->_ci->DB1->where('groups.deleted_at', null);
+			}
+			$this->_ci->DB1->group_start()
+				->like('groups.code', $this->searchTerm)
+				->or_like('groups.name', $this->searchTerm)
+				->group_end();
 		} else {
 			$this->_ci->DB1->where('groups.parent_id', $this->id);
+			if ($this->_ci->softDeleteSupported('groups')) {
+				$this->_ci->DB1->where('groups.deleted_at', null);
+			}
 
 			/* If primary group sort by id else sort by name */
 			if ($this->id == NULL) {
@@ -106,8 +118,13 @@ class LedgerTree
 	function add_sub_ledgers() {
 
 		if ($this->for == 'select2' && $this->searchTerm) {
-			$this->_ci->DB1->like('groups.code', $this->searchTerm);
-			$this->_ci->DB1->or_like('groups.name', $this->searchTerm);
+			if ($this->_ci->softDeleteSupported('groups')) {
+				$this->_ci->DB1->where('groups.deleted_at', null);
+			}
+			$this->_ci->DB1->group_start()
+				->like('groups.code', $this->searchTerm)
+				->or_like('groups.name', $this->searchTerm)
+				->group_end();
 			$child_group_l = $this->_ci->DB1->get('groups')->num_rows();			
 		} else {
 			$child_group_l = 1;

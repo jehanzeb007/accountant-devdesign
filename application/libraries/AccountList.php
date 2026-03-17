@@ -59,6 +59,9 @@ class AccountList {
       $this->name = "None";
     } else {
       $this->_ci->DB1->where('id', $id);
+      if ($this->_ci->softDeleteSupported('groups')) {
+        $this->_ci->DB1->where('deleted_at', null);
+      }
       $group = $this->_ci->DB1->get('groups')->row_array();
    
       $this->id = $group['id'];
@@ -92,6 +95,9 @@ class AccountList {
   function add_sub_groups()
   {
     $conditions = array('groups.parent_id' => $this->id);
+    if ($this->_ci->softDeleteSupported('groups')) {
+      $conditions['groups.deleted_at'] = null;
+    }
 
     /* Check if net or gross restriction is set */
     if ($this->affects_gross == 0) {

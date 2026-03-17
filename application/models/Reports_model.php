@@ -2,12 +2,19 @@
 Class Reports_model extends CI_Model {
 
 	public function count_all($ledgerId = NULL, $startDate = NULL, $endDate = NULL) {
+		$ci = &get_instance();
 		if ($ledgerId === NULL) {
 			return FALSE;
 		}
 
 		$conditions = array();
 		$conditions['entryitems.ledger_id'] = $ledgerId;
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$conditions['entries.deleted_at'] = null;
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$conditions['entryitems.deleted_at'] = null;
+		}
 
 		/* Opening and closing titles */
 		if (!is_null($startDate) && !empty($startDate)) {
@@ -101,8 +108,12 @@ Class Reports_model extends CI_Model {
 	}
 
 	public function getTotalPeriodical($id) {
+		$ci = &get_instance();
    		// build our category list only once
 	   	$cats = [];
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('groups')) {
+			$this->DB1->where('deleted_at', null);
+		}
 		$q = $this->DB1->get('groups');
 		if ($q->num_rows() > 0) {
 			$cats = $q->result();
@@ -110,10 +121,19 @@ Class Reports_model extends CI_Model {
 
 		$parent_ids = $this->buildTree($cats, $id);
 
-		$q = $this->DB1
+		$this->DB1
 			->select('SUM(amount) as total, date')
 			->join('ledgers', 'entryitems.ledger_id=ledgers.id', 'left')
-			->join('entries', 'entries.id=entryitems.entry_id', 'left')
+			->join('entries', 'entries.id=entryitems.entry_id', 'left');
+
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entries')) {
+			$this->DB1->where('entries.deleted_at', null);
+		}
+		if (method_exists($ci, 'softDeleteSupported') && $ci->softDeleteSupported('entryitems')) {
+			$this->DB1->where('entryitems.deleted_at', null);
+		}
+
+		$q = $this->DB1
 			->where_in('ledgers.group_id', $parent_ids)
 			->group_by('entries.id')
 			->where("MONTH(".$this->DB1->dbprefix('entries').".date) = MONTH(CURRENT_DATE()) AND YEAR(".$this->DB1->dbprefix('entries').".date) = YEAR(CURRENT_DATE())", NULL, FALSE)
