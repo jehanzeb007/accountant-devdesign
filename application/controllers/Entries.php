@@ -21,6 +21,13 @@ class Entries extends Admin_Controller {
 		// // pass an array of all entries to view
 		// $this->data['entries'] = $query->result_array();
 		
+		/* Entrytypes for "Add Entry" dropdown (exclude soft-deleted) */
+		if ($this->softDeleteSupported('entrytypes')) {
+			$this->DB1->where('deleted_at', null);
+		}
+		$this->DB1->order_by('id', 'asc');
+		$this->data['entrytypes'] = $this->DB1->get('entrytypes')->result_array();
+
 		// render page
 		$this->render('entries/index');
 	}

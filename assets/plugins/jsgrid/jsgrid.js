@@ -111,7 +111,7 @@
         editRowClass: "jsgrid-edit-row",
 
         confirmDeleting: true,
-        deleteConfirm: "Are you sure?",
+        deleteConfirm: "Are you sure you want to delete this record?",
 
         selecting: true,
         selectedRowClass: "jsgrid-selected-row",
