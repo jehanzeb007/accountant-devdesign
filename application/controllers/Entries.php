@@ -38,7 +38,31 @@ class Entries extends Admin_Controller {
 		->edit_column("tag_id", "$1", "getShowTag(tag_id)")
 		->edit_column("dr_total", "$1", "getToCurrencyForEntries('D', dr_total)")
 		->edit_column("cr_total", "$1", "getToCurrencyForEntries('C', cr_total)")
-		->add_column("Actions", '<a href="'.base_url().'entries/view/$2/$1" class="no-hover" style="padding-right: 5px;" escape="false" title="View"><i class="fas fa-eye"></i></a><a href="'.base_url().'entries/edit/$2/$1" style="padding-right: 1px;" class="no-hover" escape="false" title="Edit"><i class="fas fa-edit"></i></a><a href="'.base_url().'entries/delete/$2/$1" class="no-hover" escape="false" title="Delete"><i class="fas fa-trash"></i></a>', "id, entryTypeLabel");
+            ->add_column(
+                "Actions",
+                '
+    <div class="action-group">
+        <a href="'.base_url().'entries/view/$2/$1" 
+           class="action-btn view-btn" 
+           title="View">
+            <i class="fas fa-eye"></i>
+        </a>
+
+        <a href="'.base_url().'entries/edit/$2/$1" 
+           class="action-btn edit-btn" 
+           title="Edit">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        <a href="'.base_url().'entries/delete/$2/$1" 
+           class="action-btn delete-btn" 
+           title="Delete">
+            <i class="fas fa-trash"></i>
+        </a>
+    </div>
+    ',
+                "id, entryTypeLabel"
+            );
 
 		$this->datatables->unset_column('entryTypeLabel');
 		$this->datatables->unset_column('entrytype_id');

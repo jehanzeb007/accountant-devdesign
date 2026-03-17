@@ -143,16 +143,25 @@ $(document).ready(function() {
 		dc_diff();
 	});
 
-	/* Delete ledger row */
-	$(document).on('click', '.deleterow', function() {
-		$(this).parent().parent().remove();
-		var tbody = $("#entryitems");
-		if (tbody.children().length == 0) {
-		    tbody.html("<tr class='empty'><td colspan='7' style='text-align:center'>No data available in table</td></tr>");
-		}
-		/* Recalculate Total */
-		dc_diff();
-	});
+    /* Delete ledger row */
+    $(document).on('click', '.deleterow', function(e) {
+        e.preventDefault();
+        var $a = $(this);
+        var msg = $a.attr('confirm') || $a.attr('data-confirm') || '';
+        var message = msg || (lang && lang.r_u_sure ? lang.r_u_sure : 'Are you sure you want to delete this record?');
+        bootbox.confirm(message, function (result) {
+            if(result){
+                $a.parent().parent().remove();
+                var tbody = $("#entryitems");
+                if (tbody.children().length == 0) {
+                    tbody.html("<tr class='empty'><td colspan='7' style='text-align:center'>No data available in table</td></tr>");
+                }
+                /* Recalculate Total */
+                dc_diff();
+            }
+
+        });
+    });
 
 	/* Add ledger row */
 	$(document).on('click', '#addentry', function() {

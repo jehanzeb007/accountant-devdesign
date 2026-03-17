@@ -42,10 +42,10 @@
         echo '<td class="td-actions"></td>';
       } else {
         echo '<td class="td-actions text-center">';
-        echo anchor('groups/edit/'.$account->id, '<i class="fas fa-edit"></i>'.lang('accounts_index_edit_btn'), array('class' => 'no-hover font-normal', 'escape' => false, 'style' => 'margin-right: 3px;'));
+        echo anchor('groups/edit/'.$account->id, '<i class="fas fa-edit"></i>', array('class' => 'no-hover font-normal', 'escape' => false, 'style' => 'margin-right: 3px;'));
         echo "<span class='link-pad'></span>";
 
-        echo anchor('groups/delete/'.$account->id, '<i class="fas fa-trash"></i>'.lang('accounts_index_delete_btn'), 
+        echo anchor('groups/delete/'.$account->id, '<i class="fas fa-trash"></i>',
             array('class' => 'no-hover font-normal',
                   'escape' => false,
                   'confirm' => lang('accounts_index_delete_group_alert'))
@@ -81,11 +81,11 @@
         echo '</td>';
 
         echo '<td class="td-actions text-center">';
-        echo anchor('ledgers/edit/'.$data['id'], '<i class="fas fa-edit"></i>'.lang('accounts_index_edit_btn'), 
+        echo anchor('ledgers/edit/'.$data['id'], '<i class="fas fa-edit"></i>',
             array('class' => 'no-hover', 'escape' => false, 'style' => 'margin-right: 3px;')
         );
         echo "<span class='link-pad'></span>";
-        echo anchor('ledgers/delete/'.$data['id'], '<i class="fas fa-trash"></i>'.lang('accounts_index_delete_btn'), 
+        echo anchor('ledgers/delete/'.$data['id'], '<i class="fas fa-trash"></i>',
             array('class' => 'no-hover', 'escape' => false, 'confirm' => (lang('accounts_index_delete_ledger_alert')))
         );
         // echo "</td>";

@@ -5,6 +5,109 @@ $(document).ready(function() {
 
     $('select.select').not(".skip").select2({width:'100%'});
 
+    function enhanceActionButtons($root) {
+        var $scope = $root && $root.length ? $root : $(document);
+
+        $scope.find('table').each(function () {
+            var $table = $(this);
+
+            // Add classes to icon links (including DataTables-rendered rows)
+            $table.find('a').each(function () {
+                var $a = $(this);
+                var $icon = $a.children('i');
+                if ($icon.length !== 1) return;
+
+                // Treat links as action-buttons if they are icon-only OR clearly an action icon link
+                var rawText = ($a.clone().children('i').remove().end().text() || '');
+                var text = rawText.replace(/\s+/g, '');
+                var looksLikeActionIcon =
+                    $icon.hasClass('fa-edit') ||
+                    $icon.hasClass('fa-eye') ||
+                    $icon.hasClass('fa-trash') ||
+                    $icon.hasClass('fa-cog') ||
+                    $icon.hasClass('glyphicon-trash');
+
+                if (!looksLikeActionIcon) return;
+
+                if (!$a.hasClass('action-btn')) $a.addClass('action-btn');
+
+                if ($icon.hasClass('fa-trash') || $icon.hasClass('glyphicon-trash')) {
+                    $a.addClass('delete-btn');
+                } else if ($icon.hasClass('fa-edit')) {
+                    $a.addClass('edit-btn');
+                } else if ($icon.hasClass('fa-eye')) {
+                    $a.addClass('view-btn');
+                } else if ($icon.hasClass('fa-cog')) {
+                    $a.addClass('view-btn');
+                }
+
+                // If it's icon-only, remove legacy inline spacing styles
+                if (text.length === 0) {
+                    $a.css('padding-right', '');
+                    $a.css('margin-right', '');
+                }
+
+                // If multiple actions sit together, wrap in a flex action-group
+                var $parent = $a.parent();
+                var $actions = $parent.find('a.action-btn');
+                if ($actions.length >= 2) {
+                    if (!$parent.hasClass('action-group') && $parent.children('.action-group').length === 0) {
+                        // If parent is a <td>, inject wrapper; else just add class.
+                        if ($parent.is('td') || $parent.is('th')) {
+                            if ($parent.children('div.action-group').length === 0) {
+                                $actions.wrapAll('<div class="d-flex action-group"></div>');
+                            }
+                        } else {
+                            $parent.addClass('d-flex action-group');
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // Initial pass
+    enhanceActionButtons($(document));
+
+    // Re-apply after DataTables redraw (server-side/ajax paging/search)
+    $(document).on('draw.dt', function (e, settings) {
+        // settings.nTable is the table element
+        if (settings && settings.nTable) {
+            enhanceActionButtons($(settings.nTable));
+        } else {
+            enhanceActionButtons($(document));
+        }
+    });
+
+    // Global delete confirmation (Bootbox) for delete links across tables.
+    // Supports:
+    // - <a confirm="Message">...</a> (existing pattern in some views)
+    // - delete-like URLs (*/delete/* or *delete_*), only inside tables
+    $(document).on('click', 'table a', function (e) {
+        var $a = $(this);
+        if ($a.attr('data-no-confirm') === '1') return;
+
+        var href = $a.attr('href') || '';
+        if (!href || href === '#' || href.indexOf('javascript:') === 0) return;
+
+        var msg = $a.attr('confirm') || $a.attr('data-confirm') || '';
+
+        var looksLikeDelete =
+            /\/delete(\/|$)/i.test(href) ||
+            /\/delete_/i.test(href) ||
+            /delete_user/i.test(href) ||
+            /delete_group/i.test(href);
+
+        if (!msg && !looksLikeDelete) return;
+
+        e.preventDefault();
+
+        var message = msg || (lang && lang.r_u_sure ? lang.r_u_sure : 'Are you sure you want to delete this record?');
+        bootbox.confirm(message, function (result) {
+            if (result) window.location.href = href;
+        });
+    });
+
 });
 
 function price_input_C(x) {

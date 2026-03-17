@@ -1,0 +1,383 @@
+/* Modern look layer for AdminLTE v3 / Bootstrap 4.
+   Keep overrides scoped and conservative to avoid breaking layout. */
+
+:root {
+  /* Accounting/finance palette: calm neutrals + restrained navy accent */
+  --modern-bg: #f3f5f8;
+  --modern-surface: #ffffff;
+  --modern-surface-2: #f7f8fb;
+  --modern-text: #0b1220;
+  --modern-muted: #5b6b7f;
+  --modern-border: rgba(15, 23, 42, 0.10);
+
+  /* Accent */
+  --modern-accent: #1e3a8a; /* navy */
+  --modern-accent-weak: rgba(30, 58, 138, 0.14);
+  --modern-ring: rgba(30, 58, 138, 0.22);
+
+  --modern-shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+  --modern-shadow-sm: 0 6px 14px rgba(2, 6, 23, 0.08);
+  --modern-radius: 14px;
+  --modern-radius-sm: 10px;
+}
+
+/* Base typography + background */
+body:not(.dark-mode) {
+  background: var(--modern-bg);
+  color: var(--modern-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  letter-spacing: -0.01em;
+}
+
+body:not(.dark-mode) .content-wrapper {
+  background: transparent;
+}
+
+/* Header / navbar */
+body:not(.dark-mode) .main-header.navbar {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+body:not(.dark-mode) .main-header .nav-link {
+  border-radius: 999px;
+}
+
+/* Cards (AdminLTE uses .card heavily) */
+body:not(.dark-mode) .card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow-sm);
+}
+
+body:not(.dark-mode) .card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+body:not(.dark-mode) .card-title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Legacy AdminLTE v2 “box” support (some pages may still use .box) */
+body:not(.dark-mode) .box,
+body:not(.dark-mode) .box.box-solid {
+  border-radius: var(--modern-radius);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: var(--modern-shadow-sm);
+}
+
+body:not(.dark-mode) .box-header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+/* Sidebar */
+body:not(.dark-mode) .main-sidebar {
+  background: #0f172a;
+}
+
+body:not(.dark-mode) .brand-link {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+body:not(.dark-mode) .brand-link,
+body:not(.dark-mode) .brand-link .brand-text {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+body:not(.dark-mode) .nav-sidebar .nav-item > .nav-link {
+  margin: 0.15rem 0.65rem;
+  border-radius: 12px;
+  padding: 0.6rem 0.75rem;
+}
+
+body:not(.dark-mode) [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link.active {
+  background: var(--modern-accent-weak);
+  color: #eef2ff;
+}
+
+body:not(.dark-mode) [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* Tables */
+body:not(.dark-mode) .table {
+  color: inherit;
+}
+
+body:not(.dark-mode) .table thead th {
+  border-top: 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+  color: var(--modern-muted);
+  font-weight: 600;
+  text-transform: none;
+}
+
+body:not(.dark-mode) .table td,
+body:not(.dark-mode) .table th {
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  vertical-align: middle;
+}
+
+body:not(.dark-mode) .table-hover tbody tr:hover {
+  background: rgba(30, 58, 138, 0.045);
+}
+
+/* Forms */
+body:not(.dark-mode) .form-control,
+body:not(.dark-mode) .custom-select,
+body:not(.dark-mode) .select2-container--default .select2-selection--single,
+body:not(.dark-mode) .select2-container--default .select2-selection--multiple {
+  border-radius: 12px;
+  border-color: var(--modern-border);
+}
+
+body:not(.dark-mode) .form-control:focus,
+body:not(.dark-mode) .custom-select:focus,
+body:not(.dark-mode) .select2-container--default.select2-container--focus .select2-selection--single,
+body:not(.dark-mode) .select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: rgba(30, 58, 138, 0.55);
+  box-shadow: 0 0 0 0.2rem var(--modern-ring);
+}
+
+body:not(.dark-mode) .input-group .form-control {
+  border-radius: 12px;
+}
+
+body:not(.dark-mode) .input-group > .input-group-append > .btn,
+body:not(.dark-mode) .input-group > .input-group-prepend > .btn {
+  border-radius: 12px;
+}
+
+/* Buttons */
+body:not(.dark-mode) .btn {
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+body:not(.dark-mode) .btn:focus,
+body:not(.dark-mode) .btn.focus {
+  box-shadow: 0 0 0 0.2rem var(--modern-ring);
+}
+
+/* Dropdowns / menus */
+body:not(.dark-mode) .dropdown-menu {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  box-shadow: var(--modern-shadow);
+}
+
+/* Table action icon-buttons */
+body:not(.dark-mode) .action-group {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+body:not(.dark-mode) a.action-btn , .action-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  color: #64748b;
+  text-decoration: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+  margin: 4px 0px 4px 0px;
+}
+.deleterow{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  color: #64748b;
+  text-decoration: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+  margin: 4px 0px 4px 0px;
+}
+body:not(.dark-mode) a.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(2, 6, 23, 0.10);
+}
+
+body:not(.dark-mode) a.action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem var(--modern-ring);
+}
+
+body:not(.dark-mode) a.action-btn.edit-btn {
+  color: var(--modern-accent);
+}
+
+body:not(.dark-mode) a.action-btn.edit-btn:hover {
+  background: var(--modern-accent);
+  color: #fff;
+}
+
+body:not(.dark-mode) a.action-btn.view-btn:hover {
+  background: rgba(15, 23, 42, 0.80);
+  border-color: rgba(15, 23, 42, 0.80);
+  color: #fff;
+}
+
+body:not(.dark-mode) a.action-btn.delete-btn {
+  color: #b42318;
+}
+
+body:not(.dark-mode) a.action-btn.delete-btn:hover {
+  background: #b42318;
+  border-color: #b42318;
+  color: #fff;
+}
+
+/* DataTables controls */
+body:not(.dark-mode) .dataTables_wrapper .dataTables_filter input,
+body:not(.dark-mode) .dataTables_wrapper .dataTables_length select {
+  border-radius: 12px;
+  border-color: var(--modern-border);
+}
+
+/* Subtle page title + breadcrumbs */
+body:not(.dark-mode) .content-header h1,
+body:not(.dark-mode) .content-header .m-0 {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+body:not(.dark-mode) .breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 0;
+}
+/* Optional header block (if your pages use these classes) */
+.modern-header {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72));
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 14px;
+}
+
+.glass-header {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Title */
+.header-title {
+  font-weight: 600;
+  font-size: 22px;
+  color: #0b1220;
+}
+
+.header-title i {
+  color: var(--modern-accent);
+}
+
+/* Subtitle */
+.header-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+}
+
+.breadcrumb-item a {
+  color: #6c757d;
+  transition: 0.3s;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--modern-accent);
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #0b1220;
+  font-weight: 500;
+}
+
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.action-group {
+  display: flex;
+  gap: 6px;
+}
+
+/* Base Button */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.9);
+  color: #64748b;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+}
+
+/* EDIT (Muted navy) */
+.edit-btn {
+  color: var(--modern-accent);
+}
+
+.edit-btn:hover {
+  background: var(--modern-accent);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.22);
+}
+
+/* VIEW (Neutral Gray) */
+.view-btn {
+  color: #6c757d;
+}
+
+.view-btn:hover {
+  background: #6c757d;
+  color: #fff;
+}
+
+/* DELETE (Soft Red) */
+.delete-btn {
+  color: #b42318;
+}
+
+.delete-btn:hover {
+  background: #b42318;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(180, 35, 24, 0.18);
+}

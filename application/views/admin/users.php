@@ -49,12 +49,14 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url(); ?>admin/edit_user/<?= $user->id; ?>">
-                                                <i class="fas fa-edit" data-toggle="tooltip" title="<?=lang('index_edit_user_icon');?>"></i>
-                                            </a>
-                                            <a href="<?= base_url(); ?>admin/delete_user/<?= $user->id; ?>">
-                                                <i class="fas fa-trash" data-toggle="tooltip" title="<?=lang('index_delete_user_icon');?>"></i>
-                                            </a>
+                                            <div class="d-flex action-group">
+                                                <a class="action-btn edit-btn" href="<?= base_url(); ?>admin/edit_user/<?= $user->id; ?>">
+                                                    <i class="fas fa-edit" data-toggle="tooltip" title="<?=lang('index_edit_user_icon');?>"></i>
+                                                </a>
+                                                <a class="action-btn delete-btn" href="<?= base_url(); ?>admin/delete_user/<?= $user->id; ?>">
+                                                    <i class="fas fa-trash" data-toggle="tooltip" title="<?=lang('index_delete_user_icon');?>"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach;?>

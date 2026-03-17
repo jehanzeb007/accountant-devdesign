@@ -76,6 +76,8 @@
  	<link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/toastr/toastr.css">
  	<!-- Custom style -->
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/dist/css/mystyle.css">
+	<!-- Modern look overrides (kept after vendor/custom CSS) -->
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/dist/css/modern-admin.css">
 	<!-- Pagination.js -->
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/paginationjs/pagination.css">
 	
@@ -88,7 +90,7 @@
 	  $.widget.bridge('uibutton', $.ui.button);
 	</script>
 	<!-- Bootstrap 3.3.6 -->
-	<script src="<?= base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
+<!--	<script src="--><?php //= base_url(); ?><!--assets/plugins/bootstrap/js/bootstrap.min.js"></script>-->
 	<script src="<?= base_url(); ?>assets/plugins/select2/js/select2.min.js"></script>
 	<!-- Toastr -->
 	<script src="<?= base_url();?>assets/plugins/toastr/toastr.min.js"></script>
