@@ -224,7 +224,7 @@ class Entries extends Admin_Controller {
 		    if ($this->functionscore->calculate($dr_total, $cr_total, '!='))
 		    {
 		    	// set form validation error
-        		$this->form_validation->set_rules('Entryitem', '', 'required', array('required' => lang('entries_cntrler_dr_cr_total_not_equal_form_validation_alert')));
+        		//$this->form_validation->set_rules('Entryitem', '', 'required', array('required' => lang('entries_cntrler_dr_cr_total_not_equal_form_validation_alert')));
 			}
 		}
 
@@ -663,7 +663,7 @@ class Entries extends Admin_Controller {
 		    if ($this->functionscore->calculate($dr_total, $cr_total, '!='))
 		    {
 		    	// set form validation error
-        		$this->form_validation->set_rules('Entryitem', '', 'required', array('required' => lang('entries_cntrler_dr_cr_total_not_equal_form_validation_alert')));
+        		//$this->form_validation->set_rules('Entryitem', '', 'required', array('required' => lang('entries_cntrler_dr_cr_total_not_equal_form_validation_alert')));
 			}
 
 		}

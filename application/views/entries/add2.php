@@ -360,7 +360,7 @@ $(document).ready(function() {
 						'type' => "text",
 						'name' => "date",
 						'class' => "form-control",
-						'value' => set_value('date'),
+						'value' => set_value('date',date('d-M-Y')),
 						'tabindex' => '2'
 					);
 					echo form_input($data);
